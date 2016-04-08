@@ -5,4 +5,6 @@
     <string name="app_title">Time Ticker</string>
     <string name="hourFormatButton">24 Hour Mode</string>
     <string name="largeTime">12:37 PM</string>
+    <string name="alarmOneTitle">Wake Up</string>
+    <string name="alarmOneTime">6:30 AM</string>
 </resources>

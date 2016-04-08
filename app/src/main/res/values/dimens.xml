@@ -6,4 +6,5 @@
     <dimen name="titleTextHeight">30sp</dimen>
     <dimen name="largeTimeHeight">70sp</dimen>
     <dimen name="switchTextHeight">25sp</dimen>
+    <dimen name="alarmTitleHeight">20sp</dimen>
 </resources>
