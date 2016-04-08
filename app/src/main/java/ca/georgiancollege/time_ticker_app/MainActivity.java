@@ -38,19 +38,25 @@ public class MainActivity extends AppCompatActivity {
 
         //generate list
         ArrayList<String> alarms = new ArrayList<String>();
-        alarms.add("item1");
-        alarms.add("item2");
-        alarms.add("item3");
-        alarms.add("item4");
+        alarms.add("Wake Up");
+        alarms.add("Class");
+        alarms.add("Meeting");
+        alarms.add("Lunch");
+
+        ArrayList<String> times = new ArrayList<String>();
+        times.add("6:30");
+        times.add("8:00");
+        times.add("2:30");
+        times.add("12:30");
 
         clockFormatSwitch = (Switch) findViewById(R.id.clockFormatSwitch);
         mainClock = (TextClock) findViewById(R.id.textClock);
 
         alarmList = (ListView)findViewById(R.id.alarmListView);
-        
+
 
         //instantiate custom adapter
-        customAdapter adapter = new customAdapter(alarms, this);
+        customAdapter adapter = new customAdapter(alarms, times, this);
 
 
         alarmList.setAdapter(adapter);

@@ -18,12 +18,14 @@ import java.util.ArrayList;
 public class customAdapter extends BaseAdapter implements ListAdapter {
 
     private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> time = new ArrayList<String>();
     private Context context;
 
 
 
-    public customAdapter(ArrayList<String> list, Context context) {
+    public customAdapter(ArrayList<String> list, ArrayList<String> time, Context context) {
         this.list = list;
+        this.time = time;
         this.context = context;
     }
 
@@ -53,28 +55,25 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
         }
 
         //Handle TextView and display string from your list
-        TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
+        TextView listItemText = (TextView)view.findViewById(R.id.alarmNameTextView);
         listItemText.setText(list.get(position));
+        TextView timeItemText = (TextView)view.findViewById(R.id.alarmTimeTextView);
+        timeItemText.setText(time.get(position));
 
         //Handle buttons and add onClickListeners
         Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
-        Button addBtn = (Button)view.findViewById(R.id.add_btn);
+
 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 //do something
                 list.remove(position); //or some other task
+                time.remove(position); //or some other task
                 notifyDataSetChanged();
             }
         });
-        addBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //do something
-                notifyDataSetChanged();
-            }
-        });
+
 
         return view;
     }
