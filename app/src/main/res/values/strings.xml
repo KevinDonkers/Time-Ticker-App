@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_add_alarm">Add Alarm</string>
     <string name="app_title">Time Ticker</string>
-    <string name="hourFormatButton">24 Hour Mode</string>
+    <string name="hourFormatButton">24 Hour?</string>
     <string name="largeTime">12:37 PM</string>
     <string name="alarmOneTitle">Wake Up</string>
     <string name="alarmOneTime">6:30 AM</string>
