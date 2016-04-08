@@ -9,15 +9,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextClock;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private Switch clockFormatSwitch;
     private TextClock mainClock;
     private CharSequence default24HourFormat, default12HourFormat;
+
+    private ListView alarmList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +36,25 @@ public class MainActivity extends AppCompatActivity {
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        //generate list
+        ArrayList<String> alarms = new ArrayList<String>();
+        alarms.add("item1");
+        alarms.add("item2");
+        alarms.add("item3");
+        alarms.add("item4");
+
         clockFormatSwitch = (Switch) findViewById(R.id.clockFormatSwitch);
         mainClock = (TextClock) findViewById(R.id.textClock);
+
+        alarmList = (ListView)findViewById(R.id.alarmListView);
+        
+
+        //instantiate custom adapter
+        customAdapter adapter = new customAdapter(alarms, this);
+
+
+        alarmList.setAdapter(adapter);
+
 
         default12HourFormat = mainClock.getFormat12Hour();
         default24HourFormat = mainClock.getFormat24Hour();

@@ -14,7 +14,7 @@
     tools:context="ca.georgiancollege.time_ticker_app.MainActivity">
 
     <GridLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:layout_alignParentTop="true"
@@ -38,63 +38,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textClock"
-            android:layout_row="2"
+            android:layout_row="1"
             android:layout_column="0"
             android:textSize="@dimen/largeTimeHeight"
             android:layout_columnSpan="3"
             android:layout_gravity="fill_horizontal"
             android:textAlignment="center" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ListView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/alarmOneTitle"
-            android:id="@+id/alarmOneTitleTextView"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:textSize="@dimen/alarmTitleHeight"
-            android:layout_gravity="fill"
-            android:textColor="@color/primary_text"
-            android:background="@color/colorPrimaryLight"
-            android:textAlignment="textStart"
-            android:layout_columnSpan="2" />
+            android:id="@+id/alarmListView"
+            android:layout_below="@+id/gridLayout"
+            android:layout_centerHorizontal="true"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:layout_columnSpan="3"
+            android:layout_column="0" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:text="X"
-            android:id="@+id/alarmOneRemoveButton"
-            android:layout_row="3"
-            android:layout_column="2"
-            android:background="@color/colorPrimaryLight"
-            android:padding="0dp"
-            android:shadowColor="@color/background_material_light"
-            android:layout_gravity="right|fill"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/alarmOneTime"
-            android:id="@+id/alarmOneTimeTextView"
-            android:layout_row="4"
-            android:layout_column="0"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/alarmTitleHeight"
-            android:layout_gravity="fill"
-            android:background="@color/colorPrimaryLight"
-            android:textAlignment="textStart"
-            android:layout_columnSpan="2" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/alarmOneSwitch"
-            android:layout_row="4"
-            android:layout_column="2"
-            android:layout_gravity="right|fill"
-            android:background="@color/colorPrimaryLight"
-            android:textAlignment="center" />
     </GridLayout>
 
 </RelativeLayout>

@@ -15,8 +15,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarm Screen"
-        android:id="@+id/textView"
+        android:text="Create new alarm"
+        android:id="@+id/page_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
