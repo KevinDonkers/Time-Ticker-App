@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private Switch clockFormatSwitch;
     private TextClock mainClock;
     private CharSequence default24HourFormat, default12HourFormat;
+    private ArrayList<String> alarms = new ArrayList<>();
+    private ArrayList<String> times = new ArrayList<>();
 
     private ListView alarmList;
 
@@ -34,16 +36,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         //generate list
-        ArrayList<String> alarms = new ArrayList<String>();
         alarms.add("Wake Up");
         alarms.add("Class");
         alarms.add("Meeting");
         alarms.add("Lunch");
 
-        ArrayList<String> times = new ArrayList<String>();
+
+
         times.add("6:30");
         times.add("8:00");
         times.add("2:30");
@@ -92,7 +94,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
 
+        if(getIntent().hasExtra("ALARM_TITLE")) {
+            alarms.add(getIntent().getExtras().getString("ALARM_TITLE"));
+        }
+        if(getIntent().hasExtra("ALARM_TIME")) {
+            times.add(getIntent().getExtras().getString("ALARM_TIME"));
+        }
+    }
 
     public void openAlarmScreen(){
         Intent openAlarmIntent = new Intent(MainActivity.this, AddAlarmActivity.class);
