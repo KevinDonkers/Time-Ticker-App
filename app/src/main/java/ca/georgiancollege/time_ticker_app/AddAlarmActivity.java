@@ -11,7 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
+
 public class AddAlarmActivity extends AppCompatActivity {
+
+    private ArrayList<String> alarms = new ArrayList<>();
+    private ArrayList<String> times = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +26,6 @@ public class AddAlarmActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Button addButton = (Button) findViewById(R.id.addAlarmButton);
-
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,10 +41,22 @@ public class AddAlarmActivity extends AppCompatActivity {
         TimePicker alarmTime = (TimePicker) findViewById(R.id.timePicker);
 
         String newAlarmName = alarmName.getText().toString();
-        String newAlarmTime = alarmTime.getHour() + ":" + alarmTime.getMinute();
+        String newAlarmTime;
 
-        openAlarmListIntent.putExtra("ALARM_TITLE", newAlarmName);
-        openAlarmListIntent.putExtra("ALARM_TIME", newAlarmTime);
+        if (alarmTime.getMinute() < 10) {
+            newAlarmTime = alarmTime.getHour() + ":0" + alarmTime.getMinute();
+        }else {
+            newAlarmTime = alarmTime.getHour() + ":" + alarmTime.getMinute();
+        }
+
+        alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
+        times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");
+
+        alarms.add(newAlarmName);
+        times.add(newAlarmTime);
+
+        openAlarmListIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
+        openAlarmListIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
 
         startActivity(openAlarmListIntent);
     }

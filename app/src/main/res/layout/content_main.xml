@@ -49,13 +49,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/alarmListView"
-            android:layout_below="@+id/gridLayout"
-            android:layout_centerHorizontal="true"
             android:choiceMode="singleChoice"
             android:clickable="true"
             android:contextClickable="true"
             android:layout_columnSpan="3"
-            android:layout_column="0" />
+            android:layout_column="0"
+            android:fastScrollEnabled="false"
+            android:scrollIndicators="left"
+            android:overScrollFooter="@color/colorPrimary"
+            android:overScrollHeader="@color/colorPrimary"
+            android:smoothScrollbar="true"
+            android:scrollingCache="true" />
 
     </GridLayout>
 

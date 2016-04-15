@@ -1,11 +1,13 @@
 package ca.georgiancollege.time_ticker_app;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,18 +40,24 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        Log.d("MyActivity", "On Create Fired");
+
         //generate list
         alarms.add("Wake Up");
         alarms.add("Class");
         alarms.add("Meeting");
         alarms.add("Lunch");
-
-
+        if(getIntent().hasExtra("ALARM_NAME_ARRAYLIST")) {
+            alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
+        }
 
         times.add("6:30");
         times.add("8:00");
         times.add("2:30");
         times.add("12:30");
+        if(getIntent().hasExtra("ALARM_TIME_ARRAYLIST")) {
+            times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");
+        }
 
         clockFormatSwitch = (Switch) findViewById(R.id.clockFormatSwitch);
         mainClock = (TextClock) findViewById(R.id.textClock);
@@ -98,18 +106,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        if(getIntent().hasExtra("ALARM_TITLE")) {
-            alarms.add(getIntent().getExtras().getString("ALARM_TITLE"));
-        }
-        if(getIntent().hasExtra("ALARM_TIME")) {
-            times.add(getIntent().getExtras().getString("ALARM_TIME"));
-        }
+
     }
 
     public void openAlarmScreen(){
         Intent openAlarmIntent = new Intent(MainActivity.this, AddAlarmActivity.class);
-        //String UserName = nameEditText.getText().toString();
-        //openAlarmIntent.putExtra("NAME_INFO", UserName);
+        openAlarmIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
+        openAlarmIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
         startActivity(openAlarmIntent);
     }
 }
