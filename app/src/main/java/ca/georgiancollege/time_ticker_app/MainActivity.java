@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        Log.d("MyActivity", "On Create Fired");
-
         //generate list
         alarms.add("Wake Up");
         alarms.add("Class");
