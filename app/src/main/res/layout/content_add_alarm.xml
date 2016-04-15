@@ -12,12 +12,43 @@
     tools:context="ca.georgiancollege.time_ticker_app.AddAlarmActivity"
     tools:showIn="@layout/activity_add_alarm">
 
-    <TextView
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:id="@+id/gridLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Add_Alarm_Title_Label"
+            android:id="@+id/addAlarmTitleTextView"
+            android:textSize="@dimen/alarmTitleHeight" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addAlarmNameEditText"
+            android:textSize="@dimen/alarmTitleHeight"
+            android:inputType="textAutoCorrect"
+            android:layout_columnSpan="2" />
+
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePicker"
+            android:layout_columnSpan="2"
+            android:timePickerMode="clock" />
+
+    </GridLayout>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new alarm"
-        android:id="@+id/page_title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
+        android:text="@string/Add_Alarm_Button_Text"
+        android:id="@+id/addAlarmButton"
+        android:layout_below="@+id/gridLayout2"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryDark" />
 </RelativeLayout>

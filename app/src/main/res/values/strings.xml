@@ -7,4 +7,7 @@
     <string name="largeTime">12:37 PM</string>
     <string name="alarmOneTitle">Wake Up</string>
     <string name="alarmOneTime">6:30 AM</string>
+    <string name="Add_Alarm_Title_Label">Alarm Name</string>
+    <string name="Add_Alarm_Time_Label">Time</string>
+    <string name="Add_Alarm_Button_Text">Add Alarm</string>
 </resources>
