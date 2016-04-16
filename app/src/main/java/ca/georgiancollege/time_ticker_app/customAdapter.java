@@ -1,13 +1,16 @@
 package ca.georgiancollege.time_ticker_app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,8 +20,8 @@ import java.util.ArrayList;
  */
 public class customAdapter extends BaseAdapter implements ListAdapter {
 
-    private ArrayList<String> list = new ArrayList<String>();
-    private ArrayList<String> time = new ArrayList<String>();
+    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> time = new ArrayList<>();
     private Context context;
 
 
@@ -41,7 +44,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public long getItemId(int pos) {
-        return 69;
+        return 0;
         //return list.get(pos).getId();
         //just return 0 if your list items do not have an Id variable.
     }
@@ -63,14 +66,31 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
         //Handle buttons and add onClickListeners
         Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
 
-
-        deleteBtn.setOnClickListener(new View.OnClickListener(){
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //do something
                 list.remove(position); //or some other task
                 time.remove(position); //or some other task
                 notifyDataSetChanged();
+            }
+        });
+
+        Switch alarmToggle = (Switch) view.findViewById(R.id.alarmActiveSwitch);
+
+        //attach a listener to check for changes in state
+        alarmToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                //if the switch is activated set the clock to 24 hour mode
+                if (isChecked) {
+                    Log.d("MyActivity", "Switch is on");
+                } else {
+                    Log.d("MyActivity", "Switch is off");
+                }
+
             }
         });
 
