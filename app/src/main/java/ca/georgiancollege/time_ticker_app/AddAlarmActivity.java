@@ -1,5 +1,6 @@
 package ca.georgiancollege.time_ticker_app;
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AddAlarmActivity extends AppCompatActivity {
 

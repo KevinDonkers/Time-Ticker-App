@@ -1,5 +1,7 @@
 package ca.georgiancollege.time_ticker_app;
 
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.widget.TextClock;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,17 +44,13 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         //generate list
-        alarms.add("Wake Up");
-        alarms.add("Class");
         alarms.add("Meeting");
         alarms.add("Lunch");
         if(getIntent().hasExtra("ALARM_NAME_ARRAYLIST")) {
             alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
         }
 
-        times.add("6:30");
-        times.add("8:00");
-        times.add("2:30");
+        times.add("14:30");
         times.add("12:30");
         if(getIntent().hasExtra("ALARM_TIME_ARRAYLIST")) {
             times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");

@@ -1,6 +1,9 @@
 package ca.georgiancollege.time_ticker_app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Robbie on 2016-04-08.
@@ -24,7 +28,10 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> time = new ArrayList<>();
     private Context context;
 
-
+    private AlarmManager alarmManager;
+    private Calendar calendar;
+    private Intent my_intent;
+    private PendingIntent pending_intent;
 
     public customAdapter(ArrayList<String> list, ArrayList<String> time, Context context) {
         this.list = list;
@@ -52,6 +59,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.alarm_list_item, null);
@@ -76,19 +84,50 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
             }
         });
 
+
         Switch alarmToggle = (Switch) view.findViewById(R.id.alarmActiveSwitch);
 
         //attach a listener to check for changes in state
         alarmToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                //if the switch is activated set the clock to 24 hour mode
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Log.d("MyActivity", "Switch is on");
+
+                    alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+
+                    String string_time = time.get(position);
+                    int hour, minute;
+                    if(string_time.length() == 5){
+                        hour = Integer.parseInt(string_time.substring(0, 2));
+                        minute = Integer.parseInt(string_time.substring(3, 5));
+                    }
+                    else{
+                        hour = Integer.parseInt(string_time.substring(0, 1));
+                        minute = Integer.parseInt(string_time.substring(2, 4));
+                    }
+
+                    calendar = Calendar.getInstance();
+                    calendar.set(calendar.HOUR_OF_DAY, hour);
+                    calendar.set(calendar.MINUTE, minute);
+                    calendar.set(calendar.SECOND, 00);
+
+                    my_intent = new Intent(context, AlarmReceiver.class);
+                    my_intent.putExtra("extra", "alarm on");
+
+                    pending_intent = PendingIntent.getBroadcast(context, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
+
+                    Log.d("MyActivity", "Hour: " + hour + " - Minute: " + minute + " calendar: " + calendar.getTimeInMillis());
+
                 } else {
                     Log.d("MyActivity", "Switch is off");
+                    alarmManager.cancel(pending_intent);
+
+                    my_intent.putExtra("extra", "alarm off");
+
+                    context.sendBroadcast(my_intent);
                 }
 
             }
