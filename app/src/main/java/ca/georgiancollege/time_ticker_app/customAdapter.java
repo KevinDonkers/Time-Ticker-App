@@ -4,10 +4,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -26,6 +28,7 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
 
     private ArrayList<String> list = new ArrayList<>();
     private ArrayList<String> time = new ArrayList<>();
+    private ArrayList<Boolean> isAlarmEnabled = new ArrayList<>();
     private Context context;
 
     private AlarmManager alarmManager;
@@ -49,6 +52,32 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
         return list.get(pos);
     }
 
+    public String getItemName(int pos) { return list.get(pos); }
+
+    public String getItemTime(int pos) { return time.get(pos); }
+
+    public Boolean getItemIsEnabled(int pos) {
+        return isAlarmEnabled.get(pos);
+    }
+
+    public int getItemMinute(int pos) {
+        if(time.get(pos).length() == 5){
+            return Integer.parseInt(time.get(pos).substring(3, 5));
+        }
+        else{
+            return Integer.parseInt(time.get(pos).substring(2, 4));
+        }
+    }
+
+    public int getItemHour(int pos) {
+        if(time.get(pos).length() == 5){
+            return Integer.parseInt(time.get(pos).substring(0, 2));
+        }
+        else{
+            return Integer.parseInt(time.get(pos).substring(0, 1));
+        }
+    }
+
     @Override
     public long getItemId(int pos) {
         return 0;
@@ -64,6 +93,20 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.alarm_list_item, null);
         }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openAlarmIntent = new Intent(context, AddAlarmActivity.class);
+                openAlarmIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", list);
+                openAlarmIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", time);
+
+                openAlarmIntent.putExtra("POSITION", position);
+                openAlarmIntent.putExtra("SELECTED_ALARM_NAME", list.get(position));
+                openAlarmIntent.putExtra("SELECTED_ALARM_TIME", time.get(position));
+                context.startActivity(openAlarmIntent);
+            }
+        });
 
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.alarmNameTextView);
@@ -87,15 +130,20 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
 
         Switch alarmToggle = (Switch) view.findViewById(R.id.alarmActiveSwitch);
 
+        isAlarmEnabled.add(position, alarmToggle.isChecked());
+
         //attach a listener to check for changes in state
         alarmToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                isAlarmEnabled.set(position, isChecked);
+
                 if (isChecked) {
                     Log.d("MyActivity", "Switch is on");
 
-                    alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                    /*alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
                     String string_time = time.get(position);
                     int hour, minute;
@@ -119,15 +167,15 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
                     pending_intent = PendingIntent.getBroadcast(context, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
 
-                    Log.d("MyActivity", "Hour: " + hour + " - Minute: " + minute + " calendar: " + calendar.getTimeInMillis());
+                    Log.d("MyActivity", "Hour: " + hour + " - Minute: " + minute + " calendar: " + calendar.getTimeInMillis());*/
 
                 } else {
                     Log.d("MyActivity", "Switch is off");
-                    alarmManager.cancel(pending_intent);
+                    /*alarmManager.cancel(pending_intent);
 
                     my_intent.putExtra("extra", "alarm off");
 
-                    context.sendBroadcast(my_intent);
+                    context.sendBroadcast(my_intent);*/
                 }
 
             }

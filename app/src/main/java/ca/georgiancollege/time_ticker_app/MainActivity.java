@@ -1,8 +1,11 @@
 package ca.georgiancollege.time_ticker_app;
 
 import android.app.AlarmManager;
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence default24HourFormat, default12HourFormat;
     private ArrayList<String> alarms = new ArrayList<>();
     private ArrayList<String> times = new ArrayList<>();
+    private static BroadcastReceiver tickReceiver;
 
     private ListView alarmList;
 
@@ -60,14 +64,42 @@ public class MainActivity extends AppCompatActivity {
         mainClock = (TextClock) findViewById(R.id.textClock);
 
         alarmList = (ListView)findViewById(R.id.alarmListView);
-
-
         //instantiate custom adapter
-        customAdapter adapter = new customAdapter(alarms, times, this);
-
+        final customAdapter adapter = new customAdapter(alarms, times, this);
 
         alarmList.setAdapter(adapter);
 
+        //Create a broadcast receiver to handle change in time
+        tickReceiver=new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().compareTo(Intent.ACTION_TIME_TICK)==0)
+                {
+
+                    //check for any enabled alarms that have the current minute
+                    for(int i = 0; i < adapter.getCount();i++){
+                        if (adapter.getItemIsEnabled(i)){
+                            Log.d("Broadcast Recieved", adapter.getItemName(i) + " is enabled");
+
+                            if (adapter.getItemHour(i) == Calendar.getInstance().get(Calendar.HOUR_OF_DAY)){
+                                Log.d("Broadcast Recieved", adapter.getItemName(i) + " has the same Hour as system");
+
+                                if (adapter.getItemMinute(i) == Calendar.getInstance().get(Calendar.MINUTE)){
+                                    Log.d("Broadcast Recieved", adapter.getItemName(i) + " has the same Minute as system");
+                                }//end of if
+
+                            }//end of if
+
+                        }//end of if
+
+                    }//end of for
+
+                }
+            }
+        };
+
+        //Register the broadcast receiver to receive TIME_TICK
+        registerReceiver(tickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
         default12HourFormat = mainClock.getFormat12Hour();
         default24HourFormat = mainClock.getFormat24Hour();
@@ -102,14 +134,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+    }
 
-
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        //unregister broadcast receiver.
+        if(tickReceiver!=null)
+            unregisterReceiver(tickReceiver);
     }
 
     public void openAlarmScreen(){
         Intent openAlarmIntent = new Intent(MainActivity.this, AddAlarmActivity.class);
         openAlarmIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
         openAlarmIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
+        openAlarmIntent.putExtra("POSITION", -1);
         startActivity(openAlarmIntent);
     }
 }

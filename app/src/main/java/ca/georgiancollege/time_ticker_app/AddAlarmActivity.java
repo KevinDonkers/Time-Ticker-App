@@ -19,6 +19,8 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     private ArrayList<String> alarms = new ArrayList<>();
     private ArrayList<String> times = new ArrayList<>();
+    private EditText alarmName;
+    private TimePicker alarmTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,32 @@ public class AddAlarmActivity extends AppCompatActivity {
                 openAlarmListScreen();
             }
         });
+
+        alarmName = (EditText) findViewById(R.id.addAlarmNameEditText);
+        alarmTime = (TimePicker) findViewById(R.id.timePicker);
+
+        if (getIntent().hasExtra("SELECTED_ALARM_NAME")) {
+            alarmName.setText(getIntent().getStringExtra("SELECTED_ALARM_NAME"));
+        }
+        if (getIntent().hasExtra("SELECTED_ALARM_TIME")) {
+            int hour, minute;
+            String fullTime = getIntent().getStringExtra("SELECTED_ALARM_TIME");
+
+            if(fullTime.length() == 5){
+                hour = Integer.parseInt(fullTime.substring(0, 2));
+                minute = Integer.parseInt(fullTime.substring(3, 5));
+            }
+            else{
+                hour = Integer.parseInt(fullTime.substring(0, 1));
+                minute = Integer.parseInt(fullTime.substring(2, 4));
+            }
+            alarmTime.setCurrentHour(hour);
+            alarmTime.setCurrentMinute(minute);
+        }
     }
 
     public void openAlarmListScreen(){
         Intent openAlarmListIntent = new Intent(AddAlarmActivity.this, MainActivity.class);
-        EditText alarmName = (EditText) findViewById(R.id.addAlarmNameEditText);
-        TimePicker alarmTime = (TimePicker) findViewById(R.id.timePicker);
 
         String newAlarmName = alarmName.getText().toString();
         String newAlarmTime;
@@ -54,8 +76,14 @@ public class AddAlarmActivity extends AppCompatActivity {
         alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
         times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");
 
-        alarms.add(newAlarmName);
-        times.add(newAlarmTime);
+        if (getIntent().getIntExtra("POSITION", -1) >= 0){
+            alarms.set(getIntent().getIntExtra("POSITION", -1), newAlarmName);
+            times.set(getIntent().getIntExtra("POSITION", -1), newAlarmTime);
+        } else {
+            alarms.add(newAlarmName);
+            times.add(newAlarmTime);
+        }
+
 
         openAlarmListIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
         openAlarmListIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
