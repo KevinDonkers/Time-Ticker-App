@@ -1,8 +1,10 @@
 package ca.georgiancollege.time_ticker_app;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         alarmList.setAdapter(adapter);
 
         //Create a broadcast receiver to handle change in time
-        tickReceiver=new BroadcastReceiver(){
+        tickReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().compareTo(Intent.ACTION_TIME_TICK)==0)
@@ -86,6 +88,19 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (adapter.getItemMinute(i) == Calendar.getInstance().get(Calendar.MINUTE)){
                                     Log.d("Broadcast Recieved", adapter.getItemName(i) + " has the same Minute as system");
+
+                                    AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
+                                    dlgAlert.setMessage("Alarm is Ringing");
+                                    dlgAlert.setTitle(adapter.getItemName(i));
+
+                                    dlgAlert.setPositiveButton("End Alarm", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                        }
+                                    });
+
+                                    dlgAlert.create().show();
+
                                 }//end of if
 
                             }//end of if
