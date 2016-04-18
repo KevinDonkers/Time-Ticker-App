@@ -139,45 +139,6 @@ public class customAdapter extends BaseAdapter implements ListAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 isAlarmEnabled.set(position, isChecked);
-
-                if (isChecked) {
-                    Log.d("MyActivity", "Switch is on");
-
-                    /*alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-
-                    String string_time = time.get(position);
-                    int hour, minute;
-                    if(string_time.length() == 5){
-                        hour = Integer.parseInt(string_time.substring(0, 2));
-                        minute = Integer.parseInt(string_time.substring(3, 5));
-                    }
-                    else{
-                        hour = Integer.parseInt(string_time.substring(0, 1));
-                        minute = Integer.parseInt(string_time.substring(2, 4));
-                    }
-
-                    calendar = Calendar.getInstance();
-                    calendar.set(calendar.HOUR_OF_DAY, hour);
-                    calendar.set(calendar.MINUTE, minute);
-                    calendar.set(calendar.SECOND, 00);
-
-                    my_intent = new Intent(context, AlarmReceiver.class);
-                    my_intent.putExtra("extra", "alarm on");
-
-                    pending_intent = PendingIntent.getBroadcast(context, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
-
-                    Log.d("MyActivity", "Hour: " + hour + " - Minute: " + minute + " calendar: " + calendar.getTimeInMillis());*/
-
-                } else {
-                    Log.d("MyActivity", "Switch is off");
-                    /*alarmManager.cancel(pending_intent);
-
-                    my_intent.putExtra("extra", "alarm off");
-
-                    context.sendBroadcast(my_intent);*/
-                }
-
             }
         });
 

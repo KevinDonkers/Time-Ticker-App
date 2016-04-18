@@ -2,6 +2,7 @@ package ca.georgiancollege.time_ticker_app;
 
 /**
  * Created by Robbie on 2016-04-15.
+ * old method of adding an alarm, currently not in use
  */
 import android.annotation.TargetApi;
 import android.app.IntentService;
@@ -42,20 +43,13 @@ public class AlarmService extends Service {
         Log.d("MyActivity", "Ringtone state: extra is " + state);
 
         //notifications
-        NotificationManager notify_manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
         Intent intent_main_activity = new Intent(this.getApplicationContext(), MainActivity.class);
 
         //pending intent
         PendingIntent pending_intent_main_activity = PendingIntent.getActivity(this, 0, intent_main_activity, 0);
 
-        //make the notification parameters
-        Notification notification_popup = new Notification.Builder(this)
-                .setContentTitle("An alarm is going off")
-                .setSmallIcon(R.drawable.company_logo)
-                .setContentText("Click me!")
-                .setContentIntent(pending_intent_main_activity)
-                .setAutoCancel(true)
-                .build();
+
 
 
 
@@ -78,7 +72,7 @@ public class AlarmService extends Service {
             media_song.start();
 
             //start command
-            notify_manager.notify(0, notification_popup);
+
 
             this.isRunning = true;
             this.startId = 0;

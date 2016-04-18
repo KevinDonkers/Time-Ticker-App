@@ -2,6 +2,7 @@ package ca.georgiancollege.time_ticker_app;
 
 /**
  * Created by Robbie on 2016-04-15.
+ *old method of adding an alarm, currently not in use
  */
 import android.app.Activity;
 import android.content.BroadcastReceiver;

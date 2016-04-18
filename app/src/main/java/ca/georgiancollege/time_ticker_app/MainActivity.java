@@ -3,11 +3,14 @@ package ca.georgiancollege.time_ticker_app;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.LauncherActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> alarms = new ArrayList<>();
     private ArrayList<String> times = new ArrayList<>();
     private static BroadcastReceiver tickReceiver;
+    private MediaPlayer media_song;
 
     private ListView alarmList;
 
@@ -48,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        final NotificationManager notify_manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        //make the notification parameters
+        final Notification notification_popup = new Notification.Builder(this)
+                .setContentTitle("An alarm is going off")
+                .setSmallIcon(R.drawable.company_logo)
+                .setContentText("Click me!")
+                .setAutoCancel(true)
+                .build();
 
         //generate list
         alarms.add("Meeting");
@@ -89,13 +102,20 @@ public class MainActivity extends AppCompatActivity {
                                 if (adapter.getItemMinute(i) == Calendar.getInstance().get(Calendar.MINUTE)){
                                     Log.d("Broadcast Recieved", adapter.getItemName(i) + " has the same Minute as system");
 
+                                    media_song = MediaPlayer.create(MainActivity.this, R.raw.hahaha_sound);
+                                    media_song.setLooping(true);
+                                    media_song.start();
+
+                                    notify_manager.notify(0, notification_popup);
+
                                     AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
                                     dlgAlert.setMessage("Alarm is Ringing");
                                     dlgAlert.setTitle(adapter.getItemName(i));
 
                                     dlgAlert.setPositiveButton("End Alarm", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-
+                                            media_song.stop();
+                                            notify_manager.cancel(0);
                                         }
                                     });
 
