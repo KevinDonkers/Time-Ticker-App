@@ -45,10 +45,10 @@ public class AddAlarmActivity extends AppCompatActivity {
         String newAlarmName = alarmName.getText().toString();
         String newAlarmTime;
 
-        if (alarmTime.getMinute() < 10) {
-            newAlarmTime = alarmTime.getHour() + ":0" + alarmTime.getMinute();
+        if (alarmTime.getCurrentMinute() < 10) {
+            newAlarmTime = alarmTime.getCurrentHour() + ":0" + alarmTime.getCurrentMinute();
         }else {
-            newAlarmTime = alarmTime.getHour() + ":" + alarmTime.getMinute();
+            newAlarmTime = alarmTime.getCurrentHour() + ":" + alarmTime.getCurrentMinute();
         }
 
         alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
