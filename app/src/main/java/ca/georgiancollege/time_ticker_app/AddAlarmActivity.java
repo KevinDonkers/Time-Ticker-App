@@ -69,6 +69,8 @@ public class AddAlarmActivity extends AppCompatActivity {
             dlgAlert.setMessage("Please enter an Alarm Title");
             dlgAlert.setTitle("Error...");
             dlgAlert.create().show();
+
+            alarmName.getText().clear();
         } else {
             Intent openAlarmListIntent = new Intent(AddAlarmActivity.this, MainActivity.class);
 

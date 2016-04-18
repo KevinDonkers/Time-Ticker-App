@@ -39,7 +39,8 @@
             android:layout_height="fill_parent"
             android:id="@+id/timePicker"
             android:layout_columnSpan="2"
-            android:timePickerMode="clock" />
+            android:timePickerMode="clock"
+            android:numbersTextColor="@color/primary_text_default_material_light" />
 
     </GridLayout>
 
@@ -50,5 +51,6 @@
         android:id="@+id/addAlarmButton"
         android:layout_below="@+id/gridLayout2"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/primary_text_default_material_dark" />
 </RelativeLayout>

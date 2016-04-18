@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStop();
         //unregister broadcast receiver.
-        if(tickReceiver!=null)
-            unregisterReceiver(tickReceiver);
+        //if(tickReceiver!=null)
+            //unregisterReceiver(tickReceiver);
     }
 
     public void openAlarmScreen(){
