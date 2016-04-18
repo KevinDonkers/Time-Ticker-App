@@ -1,6 +1,7 @@
 package ca.georgiancollege.time_ticker_app;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -62,33 +63,41 @@ public class AddAlarmActivity extends AppCompatActivity {
     }
 
     public void openAlarmListScreen(){
-        Intent openAlarmListIntent = new Intent(AddAlarmActivity.this, MainActivity.class);
+        if (alarmName.getText().toString().trim().isEmpty()){
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
 
-        String newAlarmName = alarmName.getText().toString();
-        String newAlarmTime;
-
-        if (alarmTime.getCurrentMinute() < 10) {
-            newAlarmTime = alarmTime.getCurrentHour() + ":0" + alarmTime.getCurrentMinute();
-        }else {
-            newAlarmTime = alarmTime.getCurrentHour() + ":" + alarmTime.getCurrentMinute();
-        }
-
-        alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
-        times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");
-
-        if (getIntent().getIntExtra("POSITION", -1) >= 0){
-            alarms.set(getIntent().getIntExtra("POSITION", -1), newAlarmName);
-            times.set(getIntent().getIntExtra("POSITION", -1), newAlarmTime);
+            dlgAlert.setMessage("Please enter an Alarm Title");
+            dlgAlert.setTitle("Error...");
+            dlgAlert.create().show();
         } else {
-            alarms.add(newAlarmName);
-            times.add(newAlarmTime);
+            Intent openAlarmListIntent = new Intent(AddAlarmActivity.this, MainActivity.class);
+
+            String newAlarmName = alarmName.getText().toString();
+            String newAlarmTime;
+
+            if (alarmTime.getCurrentMinute() < 10) {
+                newAlarmTime = alarmTime.getCurrentHour() + ":0" + alarmTime.getCurrentMinute();
+            } else {
+                newAlarmTime = alarmTime.getCurrentHour() + ":" + alarmTime.getCurrentMinute();
+            }
+
+            alarms = getIntent().getStringArrayListExtra("ALARM_NAME_ARRAYLIST");
+            times = getIntent().getStringArrayListExtra("ALARM_TIME_ARRAYLIST");
+
+            if (getIntent().getIntExtra("POSITION", -1) >= 0) {
+                alarms.set(getIntent().getIntExtra("POSITION", -1), newAlarmName);
+                times.set(getIntent().getIntExtra("POSITION", -1), newAlarmTime);
+            } else {
+                alarms.add(newAlarmName);
+                times.add(newAlarmTime);
+            }
+
+
+            openAlarmListIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
+            openAlarmListIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
+
+            startActivity(openAlarmListIntent);
         }
-
-
-        openAlarmListIntent.putStringArrayListExtra("ALARM_NAME_ARRAYLIST", alarms);
-        openAlarmListIntent.putStringArrayListExtra("ALARM_TIME_ARRAYLIST", times);
-
-        startActivity(openAlarmListIntent);
     }
 
 }
