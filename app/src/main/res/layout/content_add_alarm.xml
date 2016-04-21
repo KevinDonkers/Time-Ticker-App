@@ -40,7 +40,8 @@
             android:id="@+id/timePicker"
             android:layout_columnSpan="2"
             android:timePickerMode="clock"
-            android:numbersTextColor="@color/primary_text_default_material_light" />
+            android:numbersTextColor="@color/primary_text_default_material_light"
+            android:numbersSelectorColor="@color/colorAccent" />
 
     </GridLayout>
 
